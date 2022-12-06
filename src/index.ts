@@ -26,10 +26,11 @@ export {
 
 export {default as useRetry} from "./retry-hooks/useRetry";
 
-export  {PreviewCard_STATES} from "./consts";
+export  {PreviewCard_STATES,UPLOADER_EVENTS} from "./consts";
 
 export {default as  retryEnhancer} from "./retry";
 export {default as composeEnhancers} from "./uploader/composeEnhancers";
 export {default as asUploadButton} from "./asUploadButton"
 export {default as TusUploady} from "./TusUploady"
+export {default as useUploadyContext} from "./useUploadyContext"
 export * from "./types"
