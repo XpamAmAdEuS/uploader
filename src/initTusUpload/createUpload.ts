@@ -66,9 +66,9 @@ const createUpload = (
 ): InitUploadResult => {
   const { options } = tusState.getState();
   const headers = {
-    'tus-resumable': options.version,
-    'Upload-Defer-Length': options.deferLength ? 1 : undefined,
-    'Upload-Length': !options.deferLength ? item.file.size : undefined,
+    'tus-resumable': options.version!,
+    'Upload-Defer-Length': options.deferLength! ? 1 : undefined,
+    'Upload-Length': !options.deferLength ? item.file.size! : undefined,
     'Upload-Metadata': getFileUploadMetadata(item),
     'Content-Type': options.sendDataOnCreate ? 'application/offset+octet-stream' : undefined,
     ...sendOptions.headers,

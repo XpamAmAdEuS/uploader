@@ -27,13 +27,6 @@ export const FILE_STATES = {
   ABORTED: 'aborted',
 };
 
-export const PreviewCard_STATES = {
-  PROGRESS: 'PROGRESS',
-  DONE: 'DONE',
-  ABORTED: 'ABORTED',
-  ERROR: 'ERROR',
-} as const;
-
 export const LESYM: symbol = Symbol.for('__le__');
 
 export const LE_PACK_SYM: symbol = Symbol.for('__le__pack__');
@@ -59,7 +52,7 @@ export const UPLOADER_EVENTS = devFreeze({
   REQUEST_PRE_SEND: 'REQUEST_PRE_SEND',
 
   ALL_ABORT: 'ALL_ABORT',
-});
+} as const);
 
 export const PROGRESS_DELAY = 50;
 

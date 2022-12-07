@@ -28,7 +28,7 @@ const ITEM_STATE_ABORTS = {
   },
   [FILE_STATES.ADDED]: abortNonUploadingItem,
   [FILE_STATES.PENDING]: abortNonUploadingItem,
-};
+} as const;
 
 const callAbortOnItem = (
   item: BatchItem,
@@ -36,14 +36,7 @@ const callAbortOnItem = (
   finalizeItem: FinalizeRequestMethod,
 ): boolean => {
   const itemState = item?.state;
-
-  return !!itemState &&
-    //$FlowIssue[prop-missing]
-    ITEM_STATE_ABORTS[itemState]
-    ? //$FlowExpectedError[extra-arg]
-      //$FlowIssue[prop-missing]
-      ITEM_STATE_ABORTS[itemState](item, aborts, finalizeItem)
-    : false;
+  return !!itemState && ITEM_STATE_ABORTS[itemState] ? ITEM_STATE_ABORTS[itemState](item, aborts, finalizeItem) : false;
 };
 
 const abortItem = (

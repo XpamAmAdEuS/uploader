@@ -86,7 +86,7 @@ const makeResumeRequest = (
   const pXhr = request(url, null as any, {
     method: 'HEAD',
     headers: {
-      'tus-resumable': options.version,
+      'tus-resumable': options.version!,
       ...sendOptions.headers,
     },
   });

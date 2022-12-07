@@ -1,5 +1,5 @@
 import {BATCH_STATES} from "../consts";
-import React, {EventHandler, ReactNode} from "react";
+import React, {ReactNode} from "react";
 
 export type PreviewItem = {
     id: string;
@@ -62,34 +62,6 @@ export type UploaderProcessor = {
 };
 
 export type UploadyUploaderType = UploaderType<UploaderCreateOptions>;
-
-type DropResult = FileList | unknown[];
-
-export type DropHandlerMethod = (e: React.DragEvent) => DropResult | Promise<DropResult>;
-
-export type ShouldRemoveDragOverMethod = (e: React.DragEvent) => boolean;
-
-export interface UploadDropZoneProps extends UploadOptions {
-    className?: string;
-    id?: string;
-    onDragOverClassName?: string;
-    dropHandler?: DropHandlerMethod;
-    htmlDirContentParams?: Record<string, unknown>;
-    shouldRemoveDragOver?: ShouldRemoveDragOverMethod;
-    extraProps?: Record<string, unknown>;
-    children?: JSX.Element | JSX.Element[];
-}
-
-export type RpldyButtonProps = {
-    className?: string;
-    id?: string;
-    children?: ReactNode;
-    text?: string;
-    extraProps?: Object;
-    onClick?: EventHandler<any>;
-};
-
-export type UploadButtonProps = UploadOptions & RpldyButtonProps & {};
 
 export type ItemInfo = {
     id: string;
@@ -175,11 +147,7 @@ export type AddUploadFunction = (files: BatchItem | BatchItem[], addOptions: Upl
 export type InputRef = { current: HTMLInputElement };
 
 export type UploadyContextType = {
-    getInternalFileInput: () => InputRef | undefined;
-    setExternalFileInput: (inputRef: InputRef) => void;
-    getIsUsingExternalInput: () => boolean;
     hasUploader: () => boolean;
-    showFileUpload: (options?: UploadOptions) => void;
     upload: AddUploadFunction;
     processPending: (uploadOptions?: UploadOptions) => void;
     clearPending: () => void;
@@ -190,7 +158,7 @@ export type UploadyContextType = {
     off: OffMethod;
     abort: (id?: string) => void;
     abortBatch: (id: string) => void;
-    getExtension: (name: string | Symbol) => Record<string, unknown>;
+    getExtension: (name: string | symbol) => Record<string, unknown>;
 };
 
 export type UploaderListeners = { [key: string]: EventCallback };
@@ -200,34 +168,11 @@ export type NoDomUploadyProps = UploaderCreateOptions & {
     debug?: boolean;
     //map of event name and event handler
     listeners?: UploaderListeners;
-    inputRef?: InputRef;
     //any part of your React app. Specifically any components that needs access to the uploading flow
     children?: ReactNode;
 };
 
-export type UploadyProps = NoDomUploadyProps & {
-    //whether a file input element ref will be provided instead of Uploady creating one internally - see: useFileInput (default: false)
-    customInput?: boolean;
-
-    //html element to place the file input element inside (default: document.body)
-    inputFieldContainer?: HTMLElement;
-
-    //'capture' file input field attribute - see: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#capture
-    capture?: string;
-    //'multiple' file input field attribute - see: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#multiple
-    multiple?: boolean;
-    //'accept' file input field attribute - https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#accept
-    accept?: string;
-    //'webkitdirectory' file input field attribute - https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/webkitdirectory
-    webkitdirectory?: boolean;
-    //the value to use for the internal file input element
-    fileInputId?: string;
-    //name (attribute) of the file input field (default: "file")
-    inputFieldName?: string;
-
-    //Dont render Uploady's file input in a portal. (default: false) For SSR, noPortal = false causes a React warning in DEV.
-    noPortal?: boolean;
-};
+export type UploadyProps = NoDomUploadyProps
 
 
 export type NonMaybeTypeFunc = <T>(param: T) => NonNullable<T>;
@@ -236,7 +181,7 @@ export type Destination = {
     url?: string;
     filesParamName?: string;
     params?: Record<string, unknown>;
-    headers?: Record<string, unknown>;
+    headers?: Record<any, any>;
     method?: string;
 };
 
@@ -250,7 +195,7 @@ export type ProgressInfo = {
     failed: boolean;
     percent: number;
     response: any;
-    metadata: Object;
+    metadata: Record<string, unknown>;
 };
 
 export type UploadData = {
@@ -261,7 +206,7 @@ export type UploadData = {
 
 export type FormatParamGroupNameMethod = (number: any, string: any) => string;
 
-export type Headers = Record<string, unknown>;
+export type Headers = Record<any, any>;
 
 export type FormatServerResponseMethod = (string: any, number: any, Headers: any) => any;
 
@@ -317,7 +262,7 @@ export type UploadOptions = {
     //HTTP method to use when uploading (default: POST)
     method?: string;
     //collection of params to pass along with the upload (Destination params take precedence)
-    params?: Object;
+    params?: Record<string, unknown>;
     //whether to parse server response as json even if no json content type header found (default: false)
     forceJsonResponse?: boolean;
     //whether to set XHR withCredentials to true (default: false)
@@ -346,7 +291,7 @@ export type GetExact<T> = T & Partial<T>;
 
 export interface RequestOptions {
     method?: string;
-    headers?: Record<string, string>;
+    headers?: Record<string, any>;
     withCredentials?: boolean;
     preSend?: (xhr: XMLHttpRequest) => void;
 }
@@ -358,8 +303,8 @@ export type MergeFn = <T>(target: T, ...sources: T[]) => T;
 export type SendOptions = {
     method: string;
     paramName: string;
-    params: Object;
-    headers?: Object | any;
+    params: Record<string, unknown>;
+    headers?: Record<string, unknown>;
     forceJsonResponse: boolean;
     withCredentials: boolean;
     formatGroupParamName: FormatParamGroupNameMethod;
@@ -381,7 +326,7 @@ export type XhrSendConfig = {
         issueRequest: (
             requestUrl?: string,
             requestData?: any,
-            requestOptions?: Object,
+            requestOptions?: Record<string, unknown>,
         ) => Promise<XMLHttpRequest>,
         items: BatchItem[],
         url: string,
@@ -682,8 +627,6 @@ export type AbortsMap = { [key: string]: AbortMethod };
 export type ItemsQueue = { [key: string]: string[] };
 
 export type AbortResult = { isFast: boolean };
-
-type InExactRawCreateOptions = RawCreateOptions & {};
 
 export type AbortBatchMethod = (
     batch: Batch,
